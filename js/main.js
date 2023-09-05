@@ -46,7 +46,6 @@ async function start() {
   // if we got a logged-in user
   if (currentUser) {
     updateUIOnUserLogin();
-    initFavorites();
   }
 }
 

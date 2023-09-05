@@ -113,23 +113,3 @@ function updateUIOnUserLogin() {
   $allStoriesList.show();
   updateNavOnLogin();
 }
-
-//Initialize checked stars when user logs in
-function initFavorites() {
-  //Loop through all stories displayed on page
-  $allStoriesList.find('li').each(displayFavorites);
-  $favoriteStoriesList.find('li').each(displayFavorites)
-}
-
-//Display a checked star for stories the user has favorited
-function displayFavorites(){
-  const $storyLi = $(this);
-  const storyId = $storyLi.attr('id');
-
-  const isFavorite = currentUser.favorites.some((s) => s.storyId === storyId);
-
-  if (isFavorite) {
-    const $starBtn = $storyLi.find('#starBtn');
-    $starBtn.removeClass('unchecked').addClass('checked');
-  }
-}

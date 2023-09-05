@@ -9,7 +9,7 @@ function navAllStories() {
   console.debug('navAllStories');
   hidePageComponents();
   putStoriesOnPage();
-  initFavorites();
+  
 }
 
 /** Show login/signup on click of "login" */
@@ -41,8 +41,13 @@ function navSubmitClick() {
 function navFavoritesClick() {
   console.debug('navFavoritesClick');
   hidePageComponents();
-  showFavorites();
-  initFavorites();
+  showFavorites().show();
+}
+
+function myStoriesClick() {
+  console.debug('myStoriesClick');
+  hidePageComponents();
+  showMyStories();
 }
 
 

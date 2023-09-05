@@ -23,13 +23,13 @@ function generateStoryMarkup(story) {
   console.debug('generateStoryMarkup');
   const hostName = story.getHostName() || null;
 
-  /* Check if user is logged in and if any story appears in user's favorited stories */
+  // Check if user is logged in
   const userState = Boolean(currentUser);
 
 
   return $(`
       <li id="${story.storyId}">
-        ${userState ? displayStarHTML() : ''}
+        ${userState ? generateStarIcon(story, currentUser) : ''}
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -41,9 +41,12 @@ function generateStoryMarkup(story) {
 }
 
 //If user is logged in, append stars to the stories on page
-function displayStarHTML() {
-  return `<i class='fa fa-star unchecked' id="starBtn"></i>`;
+function generateStarIcon(story, user) {
+  const isFavorite = user.checkFavorite(story)
+  const starClass = isFavorite ? 'fa fa-star checked' : 'fa fa-star unchecked';
+  return `<i class='${starClass}' id="starBtn"></i>`;
 }
+
 
 /* Gets list of stories from server, generates their HTML, and puts on page. */
 function putStoriesOnPage() {
@@ -102,7 +105,6 @@ async function showFavorites() {
     currentUser.favorites.forEach((story) => {
       const $story = generateStoryMarkup(story);
       $favoriteStoriesList.append($story);
-      $favoriteStoriesList.removeClass('unchecked').addClass('checked')
     });
   }
   $favoriteStoriesList.show();
