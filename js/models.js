@@ -22,8 +22,7 @@ class Story {
 
   /** Parses hostname out of URL and returns it. */
   getHostName() {
-    const hostname = new URL(this.url).hostname;
-    return hostname;
+    return new URL(this.url).hostname;
   }
 }
 
@@ -79,9 +78,26 @@ class StoryList {
       data: { token, story: { title, author, url } },
     });
 
-    const story = response.data.story;
+    const story = new Story(response.data.story);
     this.stories.unshift(story);
+    user.ownStories.unshift(story);
+
     return story;
+  }
+
+  async removeStory(user, storyId) {
+    const token = user.loginToken;
+    const response = await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: 'DELETE',
+      data: { token },
+    });
+
+    //filter out removed story id from this.stories
+    this.stories = this.stories.filter((s) => s.storyId !== storyId);
+    currentUser.ownStories = currentUser.ownStories.filter(
+      (s) => s.storyId !== storyId
+    );
   }
 }
 /******************************************************************************
@@ -222,8 +238,8 @@ class User {
       data: { token },
     });
   }
-  
-  checkFavorite(story){
-    return this.favorites.some(s => s.storyId === story.storyId)
+
+  checkFavorite(story) {
+    return this.favorites.some((s) => s.storyId === story.storyId);
   }
 }

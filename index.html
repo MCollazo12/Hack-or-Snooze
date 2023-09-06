@@ -41,6 +41,8 @@
         <a class="nav-link" href="#" id="nav-submit-story">Submit</a>
         |
         <a class="nav-link" href="#" id="nav-favorites">Favorites</a>
+        |
+        <a class="nav-link" href="#" id="nav-my-stories">My Stories</a>
       </div>
       <div class="nav-right">
         <a class="nav-link" href="#" id="nav-login">login/signup</a>
@@ -52,7 +54,7 @@
     <!-- area for stories (all stories, user stories, favorites) -->
     <section class="stories-container container">
       <!-- New story form -->
-      <form action class="hidden" id="submit-form">
+      <form action="" class="hidden" id="submit-form">
         <div>
           <label for="author">Author:</label>
           <input id="author" placeholder="Author Name" required />
@@ -75,7 +77,9 @@
       <ol id="all-stories-list" class="stories-list"></ol>
 
       <!-- List of user's favorited stories-->
-      <ol id="favorite-stories-list" class="stories-list hidden"></ol>
+      <ol id="favorite-stories-list" class="hidden stories-list "></ol>
+
+      <ol id="user-stories-list" class="hidden stories-list"></ol>
 
     </section>
 

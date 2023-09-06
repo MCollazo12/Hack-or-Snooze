@@ -47,3 +47,11 @@
   font-size: 1rem;
   color: rgb(239, 168, 15);
 }
+
+#trash-btn{
+  font-size: 1rem;
+ }
+
+#trash-btn:hover{
+ color: red;
+}
