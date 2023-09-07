@@ -9,7 +9,6 @@ function navAllStories() {
   console.debug('navAllStories');
   hidePageComponents();
   putStoriesOnPage();
-  
 }
 
 /** Show login/signup on click of "login" */
@@ -30,7 +29,7 @@ function updateNavOnLogin() {
   putStoriesOnPage();
 }
 
-/*Show new story form on click of "submit" */
+/** Show new story form on click of 'Submit' */
 function navSubmitClick() {
   console.debug('navSubmitClick');
   hidePageComponents();
@@ -38,7 +37,7 @@ function navSubmitClick() {
   $allStoriesList.show();
 }
 
-/** Show user's favorited stories on click of 'favorites' */
+/** Show user's favorited stories on click of 'Favorites' */
 function navFavoritesClick() {
   console.debug('navFavoritesClick');
   hidePageComponents();
@@ -46,14 +45,13 @@ function navFavoritesClick() {
   $favoriteStoriesList.show();
 }
 
+/** Show user's own stories on click of 'My stories' */
 function myStoriesClick() {
   console.debug('myStoriesClick');
   hidePageComponents();
   showMyStories();
   $userStoriesList.show();
 }
-
-
 
 $body.on('click', '#nav-all', navAllStories);
 $navLogin.on('click', navLoginClick);

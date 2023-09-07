@@ -1,13 +1,15 @@
 /* Lists of stories */
 
 .stories-list {
-  margin: 20px 5px;
+  margin: 30px 5px;
 }
 
 .stories-list > li {
   color: gray;
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   margin: 10px 0;
+  height: auto;
+  border-bottom: 1px solid rgba(41, 41, 41, 0.2);
 }
 
 #stories-loading-msg {
@@ -16,14 +18,13 @@
   margin: 20px 30px;
 }
 
-
 /* Individual stories */
 
 .story-link {
   color: black;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: normal;
-  margin: 18px 0;
+  margin: 20px 5px 0px;
 }
 
 .story-link:hover {
@@ -31,11 +32,17 @@
 }
 
 .story-author {
-  margin-left: 2em;
+  color: #4c9336;
+  font-weight: bold;
+  display: block;
+  margin: 10px 0px 10px 30px;
 }
 
 .story-user {
   display: block;
+  font-weight: bold;
+  color: #f5a941;
+  margin: 5px 0px 10px 30px;
 }
 
 .unchecked {
@@ -48,10 +55,10 @@
   color: rgb(239, 168, 15);
 }
 
-#trash-btn{
+#trash-btn {
   font-size: 1rem;
- }
+}
 
-#trash-btn:hover{
- color: red;
+#trash-btn:hover {
+  color: red;
 }

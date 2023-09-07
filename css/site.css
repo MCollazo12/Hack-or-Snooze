@@ -1,8 +1,16 @@
 /* General typography */
 
 body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   font-family: Arimo, sans-serif;
-  margin: 8px 7.5vw;
+  background: rgb(183, 181, 220);
+  background: radial-gradient(
+    circle,
+    rgba(183, 181, 220, 1) 0%,
+    rgba(151, 186, 231, 1) 100%
+  );
 }
 
 h1 {
@@ -29,21 +37,17 @@ a:hover {
   text-decoration: underline;
 }
 
-
 /* Site layout */
 
 /* This is the basic box that the main part of the page goes into */
 .container {
-  display: flex;
-  flex-direction: column;
-  align-self: center;
   background-color: #f6f6ef;
+  overflow-y: scroll;
 }
 
 .hidden {
   display: none;
 }
-
 
 /* Forms */
 
@@ -106,18 +110,23 @@ form > hr {
   width: 70px;
 }
 
-
 /* responsive queries for tightening things up for mobile. */
 
 @media screen and (max-width: 576px) {
   body {
     margin: 0;
   }
+  .container {
+    min-height: 100vh;
+  }
 }
 
 @media screen and (min-width: 992px) {
   body {
-    max-width: 900px;
-    margin: 8px auto;
+    max-width: 1200px;
+    margin: 0px auto;
+  }
+  .container {
+    max-height: 800px;
   }
 }

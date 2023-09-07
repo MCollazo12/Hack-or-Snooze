@@ -8,7 +8,7 @@ const BASE_URL = 'https://hack-or-snooze-v3.herokuapp.com';
 
 class Story {
   /** Make instance of Story from data object about story:
-   *   - {title, author, url, username, storyId, createdAt}
+   *  - {title, author, url, username, storyId, createdAt}
    */
 
   constructor({ storyId, title, author, url, username, createdAt }) {
@@ -35,13 +35,13 @@ class StoryList {
     this.stories = stories;
   }
 
-  /* 
-  Generate a new StoryList. It:
-    - calls the API
-    - builds an array of Story instances
-    - makes a single StoryList instance out of that
-    - returns the StoryList instance.
-*/
+  /**
+   * Generate a new StoryList. It:
+   * - calls the API
+   * - builds an array of Story instances
+   * - makes a single StoryList instance out of that
+   * - returns the StoryList instance.
+   */
 
   static async getStories() {
     /* 
@@ -64,12 +64,12 @@ class StoryList {
     return new StoryList(stories);
   }
 
-  /* 
-    Adds story data to API, makes a Story instance, adds it to story list.
-    - user - the current instance of User who will post the story
-    - obj of {title, author, url}
-    Returns the new Story instance
-  */
+  /**
+   * Adds story data to API, makes a Story instance, adds it to story list.
+   * - user - the current instance of User who will post the story
+   * - obj of {title, author, url}
+   * Returns the new Story instance
+   */
   async addStory(user, { title, author, url }) {
     const token = user.loginToken;
     const response = await axios({
@@ -85,6 +85,11 @@ class StoryList {
     return story;
   }
 
+  /**
+   * Removes a story with a given id from the API
+   * - user: the currentUser who removes their own story
+   * - storyId: the specific id of a selected story obj
+   */
   async removeStory(user, storyId) {
     const token = user.loginToken;
     const response = await axios({
@@ -93,21 +98,23 @@ class StoryList {
       data: { token },
     });
 
-    //filter out removed story id from this.stories
+    //filter out the removed story id from storyList stories & currentUser's own stories
     this.stories = this.stories.filter((s) => s.storyId !== storyId);
     currentUser.ownStories = currentUser.ownStories.filter(
       (s) => s.storyId !== storyId
     );
   }
 }
+
 /******************************************************************************
  * User: a user in the system (only used to represent the current user)
  */
 
 class User {
-  /** Make user instance from obj of user data and a token:
-   *   - {username, name, createdAt, favorites[], ownStories[]}
-   *   - token
+  /**
+   * Make user instance from obj of user data and a token:
+   * - {username, name, createdAt, favorites[], ownStories[]}
+   * - token
    */
 
   constructor(
@@ -126,8 +133,8 @@ class User {
     this.loginToken = token;
   }
 
-  /** Register new user in API, make User instance & return it.
-   *
+  /**
+   * Register new user in API, make User instance & return it.
    * - username: a new username
    * - password: a new password
    * - name: the user's full name
@@ -155,7 +162,6 @@ class User {
   }
 
   /** Login in user with API, make User instance & return it.
-
    * - username: an existing user's username
    * - password: an existing user's password
    */
@@ -181,8 +187,9 @@ class User {
     );
   }
 
-  /** When we already have credentials (token & username) for a user,
-   *   we can log them in automatically. This function does that.
+  /**
+   * When we already have credentials (token & username) for a user,
+   * we can log them in automatically. This function does that.
    */
 
   static async loginViaStoredCredentials(token, username) {
@@ -211,23 +218,20 @@ class User {
     }
   }
 
-  //Adds a story to user.favorites
   async addFavoriteStory(story) {
     this.favorites.push(story);
     await this.addOrRemoveFavorites('add', story);
   }
 
-  //Parses user.favorites array and filters out the story to be removed
   async removeFavoriteStory(story) {
     this.favorites = this.favorites.filter((s) => s.storyId != story.storyId);
     await this.addOrRemoveFavorites('delete', story);
   }
 
   /**
-   * Updates the API with user's favorite/not-favorited stories
-   *
-   * @param action dictates whether the story will be added or deleted
-   * using either 'POST' or 'DELETE'
+   * Handles either the addition or removal of a user's favorited story
+   * -action: dictates whether the story will be added or deleted
+   *          using either 'POST' or 'DELETE'
    */
   async addOrRemoveFavorites(action, story) {
     const method = action === 'add' ? 'POST' : 'DELETE';

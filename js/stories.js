@@ -3,8 +3,7 @@
 // This is the global list of the stories, an instance of StoryList
 let storyList;
 
-/* Get and show stories when site first loads. */
-
+/** Get and show stories when site first loads. */
 async function getAndShowStoriesOnStart() {
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
@@ -15,10 +14,10 @@ async function getAndShowStoriesOnStart() {
 /*
  * A render method to render HTML for an individual Story instance
  * - story: an instance of Story
- *
+ * - delBtn = false: will only be true when we generate the delBtn
+ *                   on user's 'My stories' page
  * Returns the markup for the story.
  */
-
 function generateStoryMarkup(story, delBtn = false) {
   const hostName = story.getHostName();
 
@@ -39,19 +38,19 @@ function generateStoryMarkup(story, delBtn = false) {
     `);
 }
 
-//If user is logged in, append stars to the stories on page
+/** If user is logged in, append stars to the stories on page */
 function generateStarIcon(story, user) {
   const isFavorite = user.checkFavorite(story);
   const starClass = isFavorite ? 'fa fa-star checked' : 'fa fa-star unchecked';
   return `<i class='${starClass}' id="starBtn"></i>`;
 }
 
-//Append a delete button to user's own stories
+/** Returns trash icon HTML */
 function generateDelBtn() {
   return "<i class='fa fa-trash' id='trash-btn'></i>";
 }
 
-/* Gets list of stories from server, generates their HTML, and puts on page. */
+/** Gets list of stories from server, generates their HTML, and puts on page. */
 function putStoriesOnPage() {
   console.debug('putStoriesOnPage');
 
@@ -66,7 +65,7 @@ function putStoriesOnPage() {
   $allStoriesList.show();
 }
 
-/** Append list of user's favorited stories */
+/** Appends a list of the user's favorited stories on 'Favorites' page */
 function showFavorites() {
   console.debug('showFavorites');
 
@@ -85,7 +84,12 @@ function showFavorites() {
   $favoriteStoriesList.show();
 }
 
-/** Adds functionality to the favorite star buttons */
+/**
+ * Adds functionality to the star buttons
+ * Will either add the selected story to the user's favorites list
+ * or remove the selected story from the user's favorites list based
+ * on the current star's class ('checked' or 'unchecked')
+ */
 async function handleStarClick(evt) {
   const $starBtn = $(evt.target);
   const storyId = $starBtn.closest('li').attr('id');
@@ -102,9 +106,7 @@ async function handleStarClick(evt) {
 
 $body.on('click', '#starBtn', handleStarClick);
 
-/*********************************************************************************** */
-
-/** Append's list of user's own stories */
+/** Append's list of user's own stories to the 'My stories' page */
 function showMyStories() {
   console.debug('showMyStories');
 
@@ -123,7 +125,7 @@ function showMyStories() {
   $userStoriesList.show();
 }
 
-/* Handles submission from new story form */
+/* Handles the submission from new story form */
 async function submitNewStory(evt) {
   console.debug('submitNewStory');
   evt.preventDefault();
@@ -140,7 +142,7 @@ async function submitNewStory(evt) {
   const newStory = await storyList.addStory(currentUser, storyData);
 
   //Generate returned HTML by passing to generateStoryMarkup &
-  //prepend the new story to $allStorieslist
+  //prepend the new story to $allStorieslist so it appears at the beginning
   const $newStory = generateStoryMarkup(newStory);
   $allStoriesList.prepend($newStory);
 
@@ -151,20 +153,15 @@ $submitForm.on('submit', submitNewStory);
 
 /** Allows user to delete their own submitted story */
 async function deleteStory(evt) {
+  //Retrieve the story's id based on the star buttons li
   const $storyLi = $(evt.target).closest('li');
   const storyId = $storyLi.attr('id');
 
+  //Pass that id along with the currentUser to removeStory
   await storyList.removeStory(currentUser, storyId);
 
+  //Show user's story again after removal
   showMyStories();
 }
 
 $userStoriesList.on('click', '#trash-btn', deleteStory);
-
-/*
- * TODO:
- * 1) add 'my stories' section in HTML'
- * 2) add navigation and event listener
- * 3) make sure currentUser stories show up in 'my stories' link
- * 4) add the ability to delete a story
- */
